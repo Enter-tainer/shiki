@@ -107,7 +107,8 @@ export async function tokenizeWithTheme(
   colorMap: string[],
   fileContents: string,
   grammar: IGrammar,
-  lang: StringLiteralUnion<TLang>
+  lang: StringLiteralUnion<TLang>,
+  semantic: boolean
 ): Promise<IThemedToken[][]> {
   let lines = fileContents.split(/\r\n|\r|\n/)
   let ruleStack: StackElement = null
@@ -116,7 +117,10 @@ export async function tokenizeWithTheme(
   const name = `${sha256(fileContents).slice(0, 8)}.${lang}`
   const filepath = path.join(os.tmpdir(), name)
   await writeFileP(filepath, fileContents)
-  const semanticTokens = mapTokens(await getTokens(['-log=verbose'], filepath))
+  let semanticTokens
+  if (semantic) {
+    semanticTokens = mapTokens(await getTokens(['-log=verbose'], filepath))
+  }
   const themeMatcher = new ThemeRuleMatcher(theme.settings)
   // console.log(semanticTokens)
   // semanticTokens.map(v => {
@@ -173,61 +177,63 @@ export async function tokenizeWithTheme(
         // explanation: explanation
       })
     }
-    const semanticLine = semanticTokens[i]
-    const splitFirst = (str: string, sp: string): [string, string] => {
-      const [res, ...remain] = str.split(sp)
-      console.log(str, sp, res, remain)
-      return [res, remain.join(sp)]
-    }
-    const getToken = (start: number, end: number): string => {
-      return line.slice(start, end)
-    }
-    const cond = (c, v) => (c ? [v] : [])
-    if (semanticLine && semanticLine.length !== 0) {
-      let charCnt = 0,
-        semanticTokenI = 0
-      for (let j = 0; j < actual.length && semanticTokenI < semanticLine.length; ++j) {
-        const curToken = semanticLine[semanticTokenI]
-        const curTokenStr = getToken(curToken.startIndex, curToken.endIndex)
-        console.log(curToken, curTokenStr)
-        if (
-          curToken.startIndex < charCnt + actual[j].content.length &&
-          charCnt + actual[j].content.length <= charCnt + actual[j].content.length
-        ) {
-          console.log(actual[j])
-          const [l, r] = splitFirst(actual[j].content, curTokenStr)
-          actual.splice(
-            j,
-            1,
-            ...cond(l !== '', { content: l, color: actual[j].color }),
-            {
-              content: curTokenStr,
-              color: themeMatcher.getBestThemeRule(curToken.scopes[0]).settings.foreground
-            },
-            ...cond(r !== '', { content: r, color: actual[j].color })
-          )
-          console.log(actual.slice(j, j + 3))
-          ++semanticTokenI
-          if (l.length !== 0) {
-            charCnt += l.length
-          } else {
-            charCnt += curTokenStr.length
-          }
-        } else {
-          charCnt += actual[j].content.length
-        }
+    if (semantic) {
+      const semanticLine = semanticTokens[i]
+      const splitFirst = (str: string, sp: string): [string, string] => {
+        const [res, ...remain] = str.split(sp)
+        // console.log(str, sp, res, remain)
+        return [res, remain.join(sp)]
       }
-      // for (let j = 0; j < semanticLine.length; ++j) {
-      //   const semanticTokenName = line.slice(semanticLine[j].startIndex, semanticLine[j].endIndex)
-      //   for (let k = 0; k < actual.length; ++k) {
-      //     if (semanticTokenName === actual[k].content) {
-      //       const match = themeMatcher.getBestThemeRule(semanticLine[j].scopes[0])
-      //       actual[k].color = match.settings.foreground
-      //       // actual[k].explanation[0].scopes = [{ scopeName: semanticLine[j].scopes[0], themeMatches: [match]}]
-      //       // console.log(actual[k].content, actual[k].color, actual[k].explanation[0].scopes)
-      //     }
-      //   }
-      // }
+      const getToken = (start: number, end: number): string => {
+        return line.slice(start, end)
+      }
+      const cond = (c, v) => (c ? [v] : [])
+      if (semanticLine && semanticLine.length !== 0) {
+        let charCnt = 0,
+          semanticTokenI = 0
+        for (let j = 0; j < actual.length && semanticTokenI < semanticLine.length; ++j) {
+          const curToken = semanticLine[semanticTokenI]
+          const curTokenStr = getToken(curToken.startIndex, curToken.endIndex)
+          // console.log(curToken, curTokenStr)
+          if (
+            curToken.startIndex < charCnt + actual[j].content.length &&
+            charCnt + actual[j].content.length <= charCnt + actual[j].content.length
+          ) {
+            // console.log(actual[j])
+            const [l, r] = splitFirst(actual[j].content, curTokenStr)
+            actual.splice(
+              j,
+              1,
+              ...cond(l !== '', { content: l, color: actual[j].color }),
+              {
+                content: curTokenStr,
+                color: themeMatcher.getBestThemeRule(curToken.scopes[0]).settings.foreground
+              },
+              ...cond(r !== '', { content: r, color: actual[j].color })
+            )
+            // console.log(actual.slice(j, j + 3))
+            ++semanticTokenI
+            if (l.length !== 0) {
+              charCnt += l.length
+            } else {
+              charCnt += curTokenStr.length
+            }
+          } else {
+            charCnt += actual[j].content.length
+          }
+        }
+        // for (let j = 0; j < semanticLine.length; ++j) {
+        //   const semanticTokenName = line.slice(semanticLine[j].startIndex, semanticLine[j].endIndex)
+        //   for (let k = 0; k < actual.length; ++k) {
+        //     if (semanticTokenName === actual[k].content) {
+        //       const match = themeMatcher.getBestThemeRule(semanticLine[j].scopes[0])
+        //       actual[k].color = match.settings.foreground
+        //       // actual[k].explanation[0].scopes = [{ scopeName: semanticLine[j].scopes[0], themeMatches: [match]}]
+        //       // console.log(actual[k].content, actual[k].color, actual[k].explanation[0].scopes)
+        //     }
+        //   }
+        // }
+      }
     }
 
     final.push(actual)

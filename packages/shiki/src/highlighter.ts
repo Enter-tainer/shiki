@@ -76,16 +76,23 @@ class Shiki {
     )
 
     return {
-      codeToThemedTokens: async (code, lang) => {
+      codeToThemedTokens: async (code, lang, semantic: boolean) => {
         if (isPlaintext(lang)) {
           throw Error('Cannot tokenize plaintext')
         }
         if (!ltog[lang]) {
           throw Error(`No language registration for ${lang}`)
         }
-        return await tokenizeWithTheme(this._theme, this._colorMap, code, ltog[lang], lang)
+        return await tokenizeWithTheme(
+          this._theme,
+          this._colorMap,
+          code,
+          ltog[lang],
+          lang,
+          semantic
+        )
       },
-      codeToHtml: async (code, lang) => {
+      codeToHtml: async (code, lang, semantic: boolean) => {
         if (isPlaintext(lang)) {
           return renderToHtml([[{ content: code }]], {
             bg: this._theme.bg
@@ -94,7 +101,14 @@ class Shiki {
         if (!ltog[lang]) {
           throw Error(`No language registration for ${lang}`)
         }
-        const tokens = await tokenizeWithTheme(this._theme, this._colorMap, code, ltog[lang], lang)
+        const tokens = await tokenizeWithTheme(
+          this._theme,
+          this._colorMap,
+          code,
+          ltog[lang],
+          lang,
+          semantic
+        )
         // console.log(JSON.stringify(tokens, null, 2))
         return renderToHtml(tokens, {
           bg: this._theme.bg
@@ -114,8 +128,12 @@ function isPlaintext(lang) {
  */
 type StringLiteralUnion<T extends U, U = string> = T | (U & {})
 export interface Highlighter {
-  codeToThemedTokens(code: string, lang: StringLiteralUnion<TLang>): Promise<IThemedToken[][]>
-  codeToHtml?(code: string, lang: StringLiteralUnion<TLang>): Promise<string>
+  codeToThemedTokens(
+    code: string,
+    lang: StringLiteralUnion<TLang>,
+    semantic: boolean
+  ): Promise<IThemedToken[][]>
+  codeToHtml?(code: string, lang: StringLiteralUnion<TLang>, semantic: boolean): Promise<string>
 
   // codeToRawHtml?(code: string): string
   // getRawCSS?(): string
