@@ -177,7 +177,7 @@ export async function tokenizeWithTheme(
     const splitFirst = (str: string, sp: string): [string, string] => {
       const [res, ...remain] = str.split(sp)
       console.log(str, sp, res, remain)
-      return [res, remain.join('')]
+      return [res, remain.join(sp)]
     }
     const getToken = (start: number, end: number): string => {
       return line.slice(start, end)
