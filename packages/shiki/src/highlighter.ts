@@ -76,16 +76,16 @@ class Shiki {
     )
 
     return {
-      codeToThemedTokens: (code, lang) => {
+      codeToThemedTokens: async (code, lang) => {
         if (isPlaintext(lang)) {
           throw Error('Cannot tokenize plaintext')
         }
         if (!ltog[lang]) {
           throw Error(`No language registration for ${lang}`)
         }
-        return tokenizeWithTheme(this._theme, this._colorMap, code, ltog[lang])
+        return await tokenizeWithTheme(this._theme, this._colorMap, code, ltog[lang], lang)
       },
-      codeToHtml: (code, lang) => {
+      codeToHtml: async (code, lang) => {
         if (isPlaintext(lang)) {
           return renderToHtml([[{ content: code }]], {
             bg: this._theme.bg
@@ -94,7 +94,8 @@ class Shiki {
         if (!ltog[lang]) {
           throw Error(`No language registration for ${lang}`)
         }
-        const tokens = tokenizeWithTheme(this._theme, this._colorMap, code, ltog[lang])
+        const tokens = await tokenizeWithTheme(this._theme, this._colorMap, code, ltog[lang], lang)
+        // console.log(JSON.stringify(tokens, null, 2))
         return renderToHtml(tokens, {
           bg: this._theme.bg
         })
@@ -113,8 +114,8 @@ function isPlaintext(lang) {
  */
 type StringLiteralUnion<T extends U, U = string> = T | (U & {})
 export interface Highlighter {
-  codeToThemedTokens(code: string, lang: StringLiteralUnion<TLang>): IThemedToken[][]
-  codeToHtml?(code: string, lang: StringLiteralUnion<TLang>): string
+  codeToThemedTokens(code: string, lang: StringLiteralUnion<TLang>): Promise<IThemedToken[][]>
+  codeToHtml?(code: string, lang: StringLiteralUnion<TLang>): Promise<string>
 
   // codeToRawHtml?(code: string): string
   // getRawCSS?(): string

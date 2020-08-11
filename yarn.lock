@@ -1232,6 +1232,15 @@
   resolved "https://registry.yarnpkg.com/@ls-lint/ls-lint/-/ls-lint-1.9.2.tgz#689f1f4c06072823a726802ba167340efcefe19c"
   integrity sha512-sugEjWjSSy9OHF6t1ZBLZCAROj52cZthB9dIePmzZzzMwmWwy3qAEMSdJheHeS1FOwDZI7Ipm1H/bWgzJNnSAw==
 
+"@mgtd/semantic-token-provider@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/@mgtd/semantic-token-provider/-/semantic-token-provider-1.0.1.tgz#34d3aac4a44b2e8644106f23338b8fbef9ab6e0b"
+  integrity sha512-45hfXeboRWm6RDyaB+Y7fsdnQzRh9wS7p9/km11YpNY+rJ6C1jx/8EG8bY1fyducr+YJ1LYAoD9QiVhBNchREw==
+  dependencies:
+    vscode-jsonrpc "^5.0.1"
+    vscode-languageserver-protocol "^3.16.0-next.6"
+    vscode-uri "^2.1.2"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -7316,9 +7325,37 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
+vscode-jsonrpc@6.0.0-next.4:
+  version "6.0.0-next.4"
+  resolved "https://registry.yarnpkg.com/vscode-jsonrpc/-/vscode-jsonrpc-6.0.0-next.4.tgz#a5cfad52a3f6146ab37162c9680f4c3ce85c4594"
+  integrity sha512-nIXUeSMKfqvqSG75s1JuUy0UgjE3d0NERjGz7AUGDFXX0/roVUEbaio5VBdus30nty8v0FCf/6MbCSrH5RybcQ==
+
+vscode-jsonrpc@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/vscode-jsonrpc/-/vscode-jsonrpc-5.0.1.tgz#9bab9c330d89f43fc8c1e8702b5c36e058a01794"
+  integrity sha512-JvONPptw3GAQGXlVV2utDcHx0BiY34FupW/kI6mZ5x06ER5DdPG/tXWMVHjTNULF5uKPOUUD0SaXg5QaubJL0A==
+
+vscode-languageserver-protocol@^3.16.0-next.6:
+  version "3.16.0-next.6"
+  resolved "https://registry.yarnpkg.com/vscode-languageserver-protocol/-/vscode-languageserver-protocol-3.16.0-next.6.tgz#38c4e5c830cd3ac5b92c0f82b6dcb59f482a6dfe"
+  integrity sha512-tW8LMFBBr6WJ33mzYAjiLTu/4tch9nvJ+rBhUNzJ8X1zNR39vj8CV3FsnrxzAqvOB+qBWEOQa0tjupW1mNo2GQ==
+  dependencies:
+    vscode-jsonrpc "6.0.0-next.4"
+    vscode-languageserver-types "3.16.0-next.3"
+
+vscode-languageserver-types@3.16.0-next.3:
+  version "3.16.0-next.3"
+  resolved "https://registry.yarnpkg.com/vscode-languageserver-types/-/vscode-languageserver-types-3.16.0-next.3.tgz#28bc8539bf647ae82597943e0b345a05f3ec807f"
+  integrity sha512-s/z5ZqSe7VpoXJ6JQcvwRiPPA3nG0nAcJ/HH03zoU6QaFfnkcgPK+HshC3WKPPnC2G08xA0iRB6h7kmyBB5Adg==
+
 "vscode-textmate@https://github.com/octref/vscode-textmate":
   version "4.0.1"
   resolved "https://github.com/octref/vscode-textmate#e65aabe2227febda7beaad31dd0fca1228c5ddf3"
+
+vscode-uri@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/vscode-uri/-/vscode-uri-2.1.2.tgz#c8d40de93eb57af31f3c715dd650e2ca2c096f1c"
+  integrity sha512-8TEXQxlldWAuIODdukIb+TR5s+9Ds40eSJrw+1iDDA9IFORPjMELarNQE3myz5XIkWWpdprmJjm1/SxMlWOC8A==
 
 w3c-hr-time@^1.0.2:
   version "1.0.2"

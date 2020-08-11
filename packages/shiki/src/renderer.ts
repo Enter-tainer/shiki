@@ -1,9 +1,11 @@
 import { IThemedToken } from './themedTokenizer'
-
+const escape = require('lodash/escape.js')
 export interface HtmlRendererOptions {
   langId?: string
   bg?: string
 }
+
+const escapeHtml = escape
 
 export function renderToHtml(lines: IThemedToken[][], options: HtmlRendererOptions = {}) {
   const bg = options.bg || '#fff'
@@ -30,13 +32,4 @@ export function renderToHtml(lines: IThemedToken[][], options: HtmlRendererOptio
   html += `</code></pre>`
 
   return html
-}
-
-function escapeHtml(html: string) {
-  return html
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/&/g, '&amp;')
-    .replace(/'/g, '&apos;')
 }
