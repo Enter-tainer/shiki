@@ -1,6 +1,6 @@
 {
   "name": "@mgtd/shiki",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "shiki",
   "keywords": [
     "shiki",
@@ -21,7 +21,7 @@
     "lodash": "^4.17.19",
     "onigasm": "^2.2.1",
     "shiki-languages": "^0.1.6",
-    "shiki-themes": "^0.1.7",
+    "@mgtd/shiki-themes": "^0.1.9",
     "vscode-textmate": "https://github.com/octref/vscode-textmate"
   }
 }

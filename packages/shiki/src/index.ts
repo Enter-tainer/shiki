@@ -1,4 +1,4 @@
-export { getTheme, loadTheme } from 'shiki-themes'
+export { getTheme, loadTheme } from '@mgtd/shiki-themes'
 export { commonLangIds, commonLangAliases, otherLangIds } from 'shiki-languages'
 
 export { getHighlighter } from './highlighter'

@@ -90,6 +90,9 @@ export class ThemeRuleMatcher {
         })
       }
     })
+    if (bestRule?.scope?.length === 0) {
+      bestRule = { ...this.getBestThemeRule('source') }
+    }
     this.bestRuleCache.set(scope, bestRule)
     return bestRule
   }
@@ -222,6 +225,7 @@ export async function tokenizeWithTheme(
               },
               ...cond(r !== '', { content: r, color: actual[j].color })
             )
+            // console.log(curToken, curToken.scopes, themeMatch)
             // console.log(actual.slice(j, j + 3))
             ++semanticTokenI
             if (l.length !== 0) {
