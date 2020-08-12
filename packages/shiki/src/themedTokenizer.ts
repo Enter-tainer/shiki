@@ -34,6 +34,7 @@ export interface IThemedToken {
   content: string
   color?: string
   explanation?: IThemedTokenExplanation[]
+  fontStyle?: string | 'italic' | 'bold' | 'underline' | ''
 }
 
 // A rule for how to color TextMate scopes.
@@ -44,6 +45,7 @@ interface TokenColorRule {
   // foreground is the color tokens of this scope should have.
   settings: {
     foreground?: string
+    fontStyle?: string | 'italic' | 'bold' | 'underline' | ''
   }
 }
 
@@ -72,12 +74,15 @@ export class ThemeRuleMatcher {
       // undefined, https://macromates.com/manual/en/scope_selectors). Might
       // want to rank some other way.
       if (typeof rule.scope === 'string') {
-        if (scope.startsWith(rule.scope) && rule.scope.length > bestRule.scope.length)
+        if (scope.startsWith(rule.scope) && rule.scope.length >= bestRule.scope.length)
           // This rule matches and is more specific than the old rule.
           bestRule = rule
       } else {
         rule.scope.map(v => {
-          if (scope.startsWith(v) && rule.scope.length > bestRule.scope.length) bestRule = rule
+          if (scope.startsWith(v) && rule.scope.length >= bestRule.scope.length) {
+            bestRule = { ...rule }
+            bestRule.scope = v
+          }
         })
       }
     })
@@ -201,13 +206,15 @@ export async function tokenizeWithTheme(
           ) {
             // console.log(actual[j])
             const [l, r] = splitFirst(actual[j].content, curTokenStr)
+            const themeMatch = themeMatcher.getBestThemeRule(curToken.scopes[0])
             actual.splice(
               j,
               1,
               ...cond(l !== '', { content: l, color: actual[j].color }),
               {
                 content: curTokenStr,
-                color: themeMatcher.getBestThemeRule(curToken.scopes[0]).settings.foreground
+                color: themeMatch.settings.foreground,
+                fontStyle: themeMatch.settings.fontStyle
               },
               ...cond(r !== '', { content: r, color: actual[j].color })
             )

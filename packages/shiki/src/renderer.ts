@@ -51,12 +51,23 @@ export function renderToHtml(lines: IThemedToken[][], options: HtmlRendererOptio
   }
   html += `<code>`
 
-  lines.forEach((l: any[]) => {
+  const boldCss = bold => (bold ? 'font-weight: bold' : '')
+  const italicCss = italic => (italic ? 'font-style: italic' : '')
+  const underlineCss = u => (u ? 'text-decoration: underline' : '')
+  const colorCss = c => `color: ${c}`
+  const Css = (b, i, u, c) =>
+    [boldCss(b), italicCss(i), underlineCss(u), colorCss(c)].filter(v => v).join(';')
+  lines.forEach(l => {
     if (l.length === 0) {
       html += `\n`
     } else {
       l.forEach(token => {
-        html += `<span style="color: ${token.color}">${escapeHtml(token.content)}</span>`
+        html += `<span style="${Css(
+          token.fontStyle === 'bold',
+          token.fontStyle === 'italic',
+          token.fontStyle === 'underline',
+          token.color
+        )}">${escapeHtml(token.content)}</span>`
         // html += `<span class=${css.getClassName(token.color)}>${escapeHtml(token.content)}</span>`
       })
       html += `\n`
