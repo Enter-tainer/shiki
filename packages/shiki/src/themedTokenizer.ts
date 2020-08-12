@@ -60,6 +60,7 @@ export class ThemeRuleMatcher {
   // Returns the best rule for a scope.
   getBestThemeRule(scope: string): TokenColorRule {
     if (this.bestRuleCache.has(scope)) return this.bestRuleCache.get(scope)
+    // console.log(scope)
     let bestRule: TokenColorRule = { scope: '', settings: { foreground: '' } }
     this.themeRules.forEach(rule => {
       // The best rule for a scope is the rule that is the longest prefix of the
@@ -79,7 +80,10 @@ export class ThemeRuleMatcher {
           bestRule = rule
       } else {
         rule.scope.map(v => {
-          if (scope.startsWith(v) && rule.scope.length >= bestRule.scope.length) {
+          // if (scope.startsWith('variable.other.enummember') && v.startsWith('variable')) {
+          //   console.log(scope, v, bestRule.scope)
+          // }
+          if (scope.startsWith(v) && v.length >= bestRule.scope.length) {
             bestRule = { ...rule }
             bestRule.scope = v
           }
