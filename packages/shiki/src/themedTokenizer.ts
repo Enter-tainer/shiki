@@ -214,6 +214,7 @@ export async function tokenizeWithTheme(
             // console.log(actual[j])
             const [l, r] = splitFirst(actual[j].content, curTokenStr)
             const themeMatch = themeMatcher.getBestThemeRule(curToken.scopes[0])
+            // console.log(curTokenStr, curToken.scopes)
             actual.splice(
               j,
               1,

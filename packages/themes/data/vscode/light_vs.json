@@ -49,7 +49,6 @@
       "scope": [
         "constant.numeric",
         "entity.name.operator.custom-literal.number",
-        "variable.other.enummember",
         "keyword.operator.plus.exponent",
         "keyword.operator.minus.exponent"
       ],
