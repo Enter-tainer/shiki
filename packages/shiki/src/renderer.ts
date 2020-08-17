@@ -1,11 +1,8 @@
 import { IThemedToken } from './themedTokenizer'
-const escape = require('lodash/escape.js')
 export interface HtmlRendererOptions {
   langId?: string
   bg?: string
 }
-
-const escapeHtml = escape
 
 // class CSSClassGen {
 //   private colorMap: Map<string, string> = new Map()
@@ -77,4 +74,16 @@ export function renderToHtml(lines: IThemedToken[][], options: HtmlRendererOptio
   html += `</code></pre>`
 
   return html
+}
+
+const htmlEscapes = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;'
+}
+
+function escapeHtml(html: string) {
+  return html.replace(/[&<>"']/g, chr => htmlEscapes[chr])
 }

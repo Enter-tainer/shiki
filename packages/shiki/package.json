@@ -1,6 +1,6 @@
 {
   "name": "@mgtd/shiki",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "shiki",
   "keywords": [
     "shiki",
@@ -18,10 +18,9 @@
   },
   "dependencies": {
     "@mgtd/semantic-token-provider": "^1.0.1",
-    "lodash": "^4.17.19",
+    "@mgtd/shiki-themes": "^0.1.12",
     "onigasm": "^2.2.1",
     "shiki-languages": "^0.1.6",
-    "@mgtd/shiki-themes": "^0.1.11",
     "vscode-textmate": "https://github.com/octref/vscode-textmate"
   }
 }

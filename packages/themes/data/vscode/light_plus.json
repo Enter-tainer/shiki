@@ -187,8 +187,7 @@
       "name": "class field",
       "scope": ["variable.other.field", "entity.name.other.dependent"],
       "settings": {
-        "foreground": "#001080",
-        "fontStyle": "underline"
+        "foreground": "#001080"
       }
     },
     {
