@@ -56,8 +56,9 @@ export function renderToHtml(lines: IThemedToken[][], options: HtmlRendererOptio
     [boldCss(b), italicCss(i), underlineCss(u), colorCss(c)].filter(v => v).join(';')
   lines.forEach(l => {
     if (l.length === 0) {
-      html += `\n`
+      html += `<span class="shiki-line"></span>\n`
     } else {
+      html += `<span class="shiki-line">`
       l.forEach(token => {
         html += `<span style="${Css(
           token.fontStyle === 'bold',
@@ -67,7 +68,7 @@ export function renderToHtml(lines: IThemedToken[][], options: HtmlRendererOptio
         )}">${escapeHtml(token.content)}</span>`
         // html += `<span class=${css.getClassName(token.color)}>${escapeHtml(token.content)}</span>`
       })
-      html += `\n`
+      html += `</span>\n`
     }
   })
   html = html.replace(/\n*$/, '') // Get rid of final new lines
