@@ -1,6 +1,6 @@
 {
   "name": "@mgtd/shiki",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "shiki",
   "keywords": [
     "shiki",
@@ -17,7 +17,7 @@
     "url": "git+https://github.com/Enter-tainer/shiki.git"
   },
   "dependencies": {
-    "@mgtd/semantic-token-provider": "^1.0.1",
+    "@mgtd/semantic-token-provider": "^1.0.2",
     "@mgtd/shiki-themes": "^0.1.12",
     "onigasm": "^2.2.1",
     "shiki-languages": "^0.1.6",
